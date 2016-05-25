@@ -18,7 +18,9 @@ ball = 512, 384#choice(range(512)), choice(range(screen_y))
 goal = 1, 384
 
 
-
+def magfield(x, y, scale=1):
+    theta = -angle_to(goal, ball)+ 2*angle_to((x, y), ball)
+    return theta
 
 
 
@@ -70,7 +72,7 @@ def main():
                          choice(range(screen_y))),
                         0,
                         10,
-                        None, screen) for _ in range(100000)]
+                        None, screen) for _ in range(100)]
         screen.fill(BLACK)
         ball = choice(range(150, 774)), choice(range(150, 518))
         opponent = choice(range(150, 774)), choice(range(150, 518))
@@ -89,7 +91,7 @@ def main():
                                    (x + int(x_component * SCALE),
                                     y + int(y_component * SCALE)))
 
-        for n in range(40):
+        for n in range(4000):
             for event in pygame.event.get():
                 if event.type == QUIT:
                     return
