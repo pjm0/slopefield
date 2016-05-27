@@ -4,36 +4,36 @@
 Display multiple force field functions in a grid pattern.
 
 """
+
+## TODO
+##
+## - interface for writing lines to subscreens (have to "shrink" coords)
+##
+##
+
 from colors import *
-from screen import *
+from screen import Screen
 from math import ceil, sqrt
 import pygame.display, pygame.draw
 
 def main():
     from time import sleep
-    test = Splitscreen(screen, 20)
+    test = Splitscreen(5)
+    test.clear_all(BLUE)
     for i in range(len(test)):
-        test.clear(BLUE, i)
+        test.clear(BLACK, i)
         
     test.refresh()
-    sleep(6)
+    sleep(2)
     pygame.quit()
 
-class Splitscreen:
+class Splitscreen(Screen):
     BORDER = 1
-    SUBSCREEN = 3
+    SUBSCREEN = 6
     
-    def __init__(self, screen, size):
-        self.screen = screen
+    def __init__(self, size):
+        Screen.__init__(self)
         self.size = size
-        
-    @property
-    def width(self):
-        return self.screen.get_width()
-
-    @property
-    def height(self):
-        return self.screen.get_height()
 
     @property
     def columns(self):
@@ -75,22 +75,20 @@ class Splitscreen:
     def clear_all(self, color):
         """ Clear the entire screen.
         """
-        self.screen.fill(color)
+        Screen.clear(self, color)
     
-    def refresh(self):
-        """ Update the screen.
-        """
-        pygame.display.flip()
 
 
-
-    def get_top_left(self, index):
-        divisions = self.get_n_divisions()
-
-def h(n):
-    columns = f(n)
-    return (n // columns, n % columns) if n > 0 else None
 
 
 if __name__ == '__main__':
     main()
+
+
+
+
+
+
+
+
+
