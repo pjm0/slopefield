@@ -19,9 +19,10 @@ import pygame.display, pygame.draw
 def main():
     from time import sleep
     test = Splitscreen(5)
-    test.clear_all(BLUE)
+    test.clear(BLUE)
     for i in range(len(test)):
         test.clear(BLACK, i)
+        test.draw_lines(GREEN, [(0, 0), (100, 100 * i)], i)
         
     test.refresh()
     sleep(2)
@@ -52,6 +53,10 @@ class Splitscreen(Screen):
     def y_scale(self):
         return self.height / self.divisions
 
+    @property
+    def scale(self):
+        return self.SUBSCREEN / self.divisions
+
     def rect(self, i):
         SUBSCREEN, BORDER = self.SUBSCREEN, self.BORDER
         columns = self.columns
@@ -67,15 +72,27 @@ class Splitscreen(Screen):
     def __len__(self):
         return self.size
 
-    def clear(self, color, i):
+    def clear(self, color, i=None):
         """ Clear the subscreen at index i.
         """
-        pygame.draw.rect(self.screen, color, self.rect(i))
+        if i != None:
+            pygame.draw.rect(self.screen, color, self.rect(i))
+        else:
+            Screen.clear(self, color)
 
-    def clear_all(self, color):
-        """ Clear the entire screen.
-        """
-        Screen.clear(self, color)
+    def draw_lines(self, color, points, i=None):
+        if i == None:
+            Screen.draw_lines(self, color, points)
+        else:
+            origin = self.rect(i)[:2]
+            adjusted_points = []
+            for x, y in points:
+                new_x = origin[0] + x * self.scale
+                new_y = origin[1] + y * self.scale
+                adjusted_points.append((new_x, new_y))
+            Screen.draw_lines(self, color, adjusted_points)
+        
+ 
     
 
 
