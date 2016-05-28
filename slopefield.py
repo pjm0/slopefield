@@ -4,15 +4,15 @@ from random import choice
 from time import sleep
 
 import colors
-from screen import *
-screen_x, screen_y = screen.get_width(), screen.get_height()
+##from screen import *
+##screen_x, screen_y = screen.get_width(), screen.get_height()
 
 from geometry import *
 from agent import Agent
 from avoid_border import avoid_border
 
 
-SCALE = 10
+SCALE = 50
 opponent = choice(range(150, 774)), choice(range(150, 518))
 ball = 512, 384#choice(range(512)), choice(range(screen_y))
 goal = 1, 384
@@ -46,14 +46,14 @@ def f(x, y, scale=1):
     vector_y = sin(theta);
     
     
-    if x < BORDER_WIDTH:
-        vector_x = max(vector_x, (BORDER_WIDTH - x) / BORDER_WIDTH)
-    if x > screen_x - BORDER_WIDTH:
-        vector_x = min(vector_x, -(x - (screen_x - BORDER_WIDTH)) / BORDER_WIDTH)
-    if y < BORDER_WIDTH:
-        vector_y = max(vector_y, (BORDER_WIDTH - y) / BORDER_WIDTH)
-    if y > screen_y - BORDER_WIDTH:
-        vector_y = min(vector_y, -(y - (screen_y - BORDER_WIDTH)) / BORDER_WIDTH)
+##    if x < BORDER_WIDTH:
+##        vector_x = max(vector_x, (BORDER_WIDTH - x) / BORDER_WIDTH)
+##    if x > screen_x - BORDER_WIDTH:
+##        vector_x = min(vector_x, -(x - (screen_x - BORDER_WIDTH)) / BORDER_WIDTH)
+##    if y < BORDER_WIDTH:
+##        vector_y = max(vector_y, (BORDER_WIDTH - y) / BORDER_WIDTH)
+##    if y > screen_y - BORDER_WIDTH:
+##        vector_y = min(vector_y, -(y - (screen_y - BORDER_WIDTH)) / BORDER_WIDTH)
         
 ##    if distance_to((x, y), opponent) < 200:
 ##        theta = angle_to((x, y), opponent) + 0.25 * pi + \
@@ -107,4 +107,5 @@ def main():
     
 
 if __name__ == '__main__':
-    main()
+    pass
+##    main()
