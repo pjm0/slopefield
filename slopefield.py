@@ -25,11 +25,20 @@ def magfield(x, y, scale=1):
 
 
 def g(x, y, scale=1):
-    if (-0.75 * pi < angle_to((x, y), ball) < -pi/4
-        or 0.75 * pi > angle_to((x, y), ball) > pi/4):
+    if (-0.75 * pi < angle_to((x, y), ball) < -pi/4):
+        return magfield(x, y, scale)
+    elif 0.75 * pi > angle_to((x, y), ball) > pi/4:
         return magfield(x, y, scale)
     else:
         return pi-magfield(x, y, scale)
+    
+def h(x, y, scale=1):
+##    if (-0.75 * pi < angle_to((x, y), ball) < -pi/4):
+    return 1.75 * pi + magfield(x, y, scale)*.5
+##    elif 0.75 * pi > angle_to((x, y), ball) > pi/4:
+##        return None #pi+magfield(x, y, scale)
+##    else:
+##        return None #magfield(x, y, scale)
     
 def f(x, y, scale=1):
     BORDER_WIDTH = 100;
@@ -121,4 +130,6 @@ def main():
 
 if __name__ == '__main__':
 ##    pass
-    main()
+    import scenario
+    scenario.main()
+    #main()

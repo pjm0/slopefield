@@ -30,7 +30,7 @@ def main():
 
 class Splitscreen(Screen):
     BORDER = 1
-    SUBSCREEN = 6
+    SUBSCREEN = 30
     
     def __init__(self, size):
         Screen.__init__(self)

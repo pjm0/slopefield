@@ -10,7 +10,7 @@ def main():
     pygame.quit()
 
 class Screen:
-    SIZE = (1600, 900)
+    SIZE = (640, 480)
     
     def __init__(self):
         pygame.init()

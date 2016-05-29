@@ -15,6 +15,7 @@ class Agent():
         self.rotation = rotation
         self.path = [tuple(self.loc)]
         self.screen = screen
+        self.active = True
 
     def __str__(self):
         return "rotation:{}\ninitial theta:{}\nfinal theta:{}\nfinal location:{}\n".format(self.rotation, self.initial_theta, self.theta, self.loc)
@@ -27,10 +28,14 @@ class Agent():
 
     def advance(self):
         #self.theta = (-angle_to(goal, ball) + 2*angle_to(self.loc, ball))
-        if self.theta is not None:
+        if self.active and (self.theta is not None):
             self.loc = (self.loc[0] + self.speed * cos(self.theta),
                         self.loc[1] + self.speed * sin(self.theta))
-            self.path.append(tuple(self.loc))
+            if (0 <= self.loc[0] <= self.screen.width and
+                0 <= self.loc[1] <= self.screen.height):
+                self.path.append(tuple(self.loc))
+            else:
+                self.active =  False
 
     def draw(self, subscreen=None):
         if len(self.path) >= 2:
