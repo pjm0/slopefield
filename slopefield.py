@@ -12,7 +12,7 @@ from agent import Agent
 from avoid_border import avoid_border
 
 
-SCALE = 50
+SCALE = 15
 opponent = choice(range(150, 774)), choice(range(150, 518))
 ball = 512, 384#choice(range(512)), choice(range(screen_y))
 goal = 1, 384
@@ -24,6 +24,13 @@ def magfield(x, y, scale=1):
 
 
 
+def g(x, y, scale=1):
+    if (-0.75 * pi < angle_to((x, y), ball) < -pi/4
+        or 0.75 * pi > angle_to((x, y), ball) > pi/4):
+        return magfield(x, y, scale)
+    else:
+        return pi-magfield(x, y, scale)
+    
 def f(x, y, scale=1):
     BORDER_WIDTH = 100;
 #*//*
@@ -66,46 +73,52 @@ def f(x, y, scale=1):
 
 #/*
 def main():
+    import pygame
+    from colors import BLACK, WHITE
     from pygame.locals import QUIT
+    from scenario import Scenario
+    test = Scenario(3)
+    screen = test.display.screen
     while True:
-        agents = [Agent((choice(range(screen_x)),
-                         choice(range(screen_y))),
+        agents = [Agent((choice(range(test.display.width)),
+                         choice(range(test.display.height))),
                         0,
                         10,
-                        None, screen) for _ in range(100)]
-        screen.fill(BLACK)
+                        None, test.display) for _ in range(500)]
+        test.display.clear(BLACK)
         ball = choice(range(150, 774)), choice(range(150, 518))
         opponent = choice(range(150, 774)), choice(range(150, 518))
+        test.draw_field("g", 0)
         #pygame.draw.circle(screen, BLUE, ball, 10)
-        pygame.draw.circle(screen, WHITE, goal, 10)
-        pygame.draw.circle(screen, RED, opponent, 10)
-        for x in range(0, screen_x, 2 * SCALE):
-            for y in range(0, screen_y, 2 * SCALE):
-                #print(x, y)
-                angle = f(x, y)
-                x_component, y_component = cos(angle), sin(angle)
-                pygame.draw.aaline(screen, RED, (x, y),
-                                   (x + int(x_component * SCALE * 1.5),
-                                    y + int(y_component * SCALE * 1.5)))
-                pygame.draw.aaline(screen, GREEN, (x, y),
-                                   (x + int(x_component * SCALE),
-                                    y + int(y_component * SCALE)))
+##        pygame.draw.circle(screen, WHITE, goal, 10)
+##        pygame.draw.circle(screen, RED, opponent, 10)
+##        for x in range(0, test.display.width, 2 * SCALE):
+##            for y in range(0, test.display.height, 2 * SCALE):
+##                #print(x, y)
+##                angle = f(x, y)
+##                x_component, y_component = cos(angle), sin(angle)
+##                test.(screen, RED, (x, y),
+##                                   (x + int(x_component * SCALE * 1.5),
+##                                    y + int(y_component * SCALE * 1.5)))
+##                pygame.draw.aaline(screen, GREEN, (x, y),
+##                                   (x + int(x_component * SCALE),
+##                                    y + int(y_component * SCALE)))
 
         for n in range(4000):
             for event in pygame.event.get():
                 if event.type == QUIT:
                     return
-                else:
-                    print(event.type)
+##                else:
+##                    print(event.type)
             pygame.draw.circle(screen, WHITE, goal, 10)
             #pygame.draw.circle(screen, RED, opponent, 10)
             for agent in agents:
-                agent.rotate_to(f(*agent.loc))
+                agent.rotate_to(g(*agent.loc))
                 agent.advance()
-                agent.draw()
+                agent.draw(0)
             pygame.display.flip()
     
 
 if __name__ == '__main__':
-    pass
-##    main()
+##    pass
+    main()

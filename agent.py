@@ -20,18 +20,23 @@ class Agent():
         return "rotation:{}\ninitial theta:{}\nfinal theta:{}\nfinal location:{}\n".format(self.rotation, self.initial_theta, self.theta, self.loc)
 
     def rotate_to(self, angle):
-        self.theta = angle + (pi / 4 / 256) * choice(range(1, 256))
+        self.theta = angle #+ (pi / 4 / 256) * choice(range(1, 256))
 
     def rotate_by(self, angle):
         self.theta += angle
 
     def advance(self):
         #self.theta = (-angle_to(goal, ball) + 2*angle_to(self.loc, ball))
-        self.loc = (self.loc[0] + self.speed * cos(self.theta),
-                    self.loc[1] + self.speed * sin(self.theta))
-        self.path.append(tuple(self.loc))
+        if self.theta is not None:
+            self.loc = (self.loc[0] + self.speed * cos(self.theta),
+                        self.loc[1] + self.speed * sin(self.theta))
+            self.path.append(tuple(self.loc))
 
-    def draw(self):
+    def draw(self, subscreen=None):
         if len(self.path) >= 2:
-            pygame.draw.lines(self.screen, self.color, False, self.path)
+            #pygame.draw.lines
+            if subscreen == None:
+                self.screen.draw_lines(self.color, self.path)
+            else:
+                self.screen.draw_lines(self.color, self.path, subscreen)
         #pygame.draw.line(screen, BLUE, self.path[0], ball)

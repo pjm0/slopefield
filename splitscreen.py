@@ -60,7 +60,6 @@ class Splitscreen(Screen):
     def rect(self, i):
         SUBSCREEN, BORDER = self.SUBSCREEN, self.BORDER
         columns = self.columns
-        print(i, columns)
         x, y = (i % columns, i // columns)
         top_left_x, top_left_y = ((BORDER + (SUBSCREEN + BORDER)*x),
                                   (BORDER + (SUBSCREEN + BORDER)*y))
@@ -85,15 +84,12 @@ class Splitscreen(Screen):
         if i == None:
             Screen.draw_lines(self, color, points)
         else:
-            #print("i:", i, "points", points)
             origin = self.rect(i)[:2]
-            #print("origin:", origin)
             adjusted_points = []
             for x, y in points:
                 new_x = origin[0] + x * self.scale
                 new_y = origin[1] + y * self.scale
                 adjusted_points.append((new_x, new_y))
-            #print(points, "\n", adjusted_points)
             self.draw_lines(color, adjusted_points)
         
  
