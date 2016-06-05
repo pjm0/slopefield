@@ -13,17 +13,36 @@ from colors import *
 from geometry import *
 from agent import Agent
 from avoid_border import avoid_border
-from slopefield import f, g, h, magfield
+from slopefield import f, g, h, magfield, t, ball, z
 import pygame
 from pygame import QUIT
 
 def main():
-    test = Scenario(10, 20)
-    test.draw_field("f", 0)
-    test.draw_field("g", 1)
-    test.draw_field("h", 2)
-    test.display.refresh()
-    test.run_agents(1000)
+    test = Scenario(1, 20)
+    
+##    test.draw_field("f", 0)
+##    test.draw_field("g", 1)
+    scale = 5
+    while True:
+        for n in range(scale):
+            test.display.clear(BLACK)
+            test.fields["h"] = z(magfield, g, n/scale)
+            test.draw_field("h", 0)
+            test.run_agents(1)
+            test.display.refresh()
+        for n in range(scale, 0, -1):
+            test.display.clear(BLACK)
+            test.fields["h"] = z(magfield, g, n/scale)
+            test.draw_field("h", 0)
+            test.run_agents(1)
+            test.display.refresh()
+##    test.run_agents(100)
+##        test.fields["f"] = g
+##        test.fields["g"] = f
+##        test.run_agents(50)
+##        test.fields["f"] = f
+##        test.fields["g"] = g
+
     pygame.quit()
 
 
@@ -31,8 +50,8 @@ class Scenario:
     BOTS = 50
     def __init__(self, num_screens, scale = 10):
         
-        self.fields = {"f":magfield, "g":g, "h":h} # To map function names to forcefield functions.
-        self.order = ["f", "g", "h"]
+        self.fields = {"h": magfield} # To map function names to forcefield functions.
+        self.order = ["h"]
         self.display = Splitscreen(num_screens)
         self.agents = {key:[Agent((choice(range(self.display.width)),
                                    choice(range(self.display.height))),
@@ -46,9 +65,9 @@ class Scenario:
 
     def draw_field(self, key, i=None):
         display = self.display
+        display.clear(BLACK, i)
         for agent in self.agents[key]:
             agent.draw(i)
-        display.refresh()
         for x in range(0, self.display.width, 2 * self.scale):
             for y in range(0, self.display.height, 2 * self.scale):
                 #print(x, y)
@@ -83,7 +102,7 @@ class Scenario:
                     agent.rotate_to(self.fields[key](*agent.loc))
                     agent.advance()
                     agent.draw(n)
-            self.display.refresh()
+##            self.display.refresh()
 
     
     def draw(self, x, y):

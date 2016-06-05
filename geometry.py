@@ -26,10 +26,15 @@ def distance_to(point_1, point_2):
             + (point_1[1] - point_2[1])**2)**.5
 
 def add_angles(angle1, angle2):
-    theta = angle1 + angle2
-    while theta < -pi:
-        theta += 2 * pi
-    while theta >= pi:
-        theta -= 2 * pi
-    return theta
+    if angle1 == None:
+        return angle2
+    elif angle2 == None:
+        return angle1
+    else:
+        theta = angle1 + angle2
+        while theta < -pi:
+            theta += 2 * pi
+        while theta >= pi:
+            theta -= 2 * pi
+        return theta
 #PI = pi

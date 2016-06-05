@@ -18,19 +18,25 @@ ball = 512, 384#choice(range(512)), choice(range(screen_y))
 goal = 1, 384
 
 
+def fade(f_1, f_2):
+    pass
+
 def magfield(x, y, scale=1):
     theta = -angle_to(goal, ball)+ 2*angle_to((x, y), ball)
     return theta
 
-
+def t(point, angle):
+    return lambda x, y: -angle + 2 * angle_to((x, y), point)
 
 def g(x, y, scale=1):
     if (-0.75 * pi < angle_to((x, y), ball) < -pi/4):
         return magfield(x, y, scale)
     elif 0.75 * pi > angle_to((x, y), ball) > pi/4:
         return magfield(x, y, scale)
-    else:
+    elif abs(angle_to((x, y), ball)) < pi/4:
         return pi-magfield(x, y, scale)
+    else:
+        return magfield(x, y, scale)
     
 def h(x, y, scale=1):
 ##    if (-0.75 * pi < angle_to((x, y), ball) < -pi/4):
@@ -60,6 +66,13 @@ def f(x, y, scale=1):
     #print(theta)
     vector_x = cos(theta);
     vector_y = sin(theta);
+def c(x, y):
+    return 0
+     
+def z(f_1, f_2, degree):
+    return lambda x, y: add_angles(f_1(x, y),
+                                       add_angles(-f_1(x, y) if f_1(x, y) is not None else None,
+                                                  f_2(x, y) if f_2(x, y) is not None else None)*degree)
     
     
 ##    if x < BORDER_WIDTH:
