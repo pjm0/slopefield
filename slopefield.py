@@ -36,7 +36,7 @@ def g(x, y, scale=1):
     elif abs(angle_to((x, y), ball)) < pi/4:
         return pi-magfield(x, y, scale)
     else:
-        return magfield(x, y, scale)
+        return pi-magfield(x, y, scale)
     
 def h(x, y, scale=1):
 ##    if (-0.75 * pi < angle_to((x, y), ball) < -pi/4):
@@ -67,12 +67,14 @@ def f(x, y, scale=1):
     vector_x = cos(theta);
     vector_y = sin(theta);
 def c(x, y):
-    return 0
+    return pi
      
 def z(f_1, f_2, degree):
-    return lambda x, y: add_angles(f_1(x, y),
-                                       add_angles(-f_1(x, y) if f_1(x, y) is not None else None,
-                                                  f_2(x, y) if f_2(x, y) is not None else None)*degree)
+##    return lambda x, y: add_angles(f_1(x, y),
+##                                       add_angles(-f_1(x, y) if f_1(x, y) is not None else None,
+##                                                  f_2(x, y) if f_2(x, y) is not None else None)*degree)
+    return lambda x, y: add_angles_2(f_1(x, y), degree,
+                                     f_2(x, y), 1 -  degree)
     
     
 ##    if x < BORDER_WIDTH:
@@ -88,9 +90,9 @@ def z(f_1, f_2, degree):
 ##        theta = angle_to((x, y), opponent) + 0.25 * pi + \
 ##                0.25 * pi * distance_to((x, y), opponent) / 200
 ##    else:
-    theta = atan2(vector_y, vector_x)
-
-    return theta #x + scale * vector_x, y + scale * vector_y;
+##    theta = atan2(vector_y, vector_x)
+##
+##    return theta #x + scale * vector_x, y + scale * vector_y;
 
 
 #/*

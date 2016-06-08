@@ -13,7 +13,7 @@ from colors import *
 from geometry import *
 from agent import Agent
 from avoid_border import avoid_border
-from slopefield import f, g, h, magfield, t, ball, z
+from slopefield import f, g, h, magfield, t, ball, z, c
 import pygame
 from pygame import QUIT
 
@@ -22,17 +22,18 @@ def main():
     
 ##    test.draw_field("f", 0)
 ##    test.draw_field("g", 1)
-    scale = 5
+    scale = 10
+    f_1, f_2  = magfield, g
     while True:
         for n in range(scale):
             test.display.clear(BLACK)
-            test.fields["h"] = z(magfield, g, n/scale)
+            test.fields["h"] = z(f_1, f_2, n/scale)
             test.draw_field("h", 0)
             test.run_agents(1)
             test.display.refresh()
         for n in range(scale, 0, -1):
             test.display.clear(BLACK)
-            test.fields["h"] = z(magfield, g, n/scale)
+            test.fields["h"] = z(f_1, f_2, n/scale)
             test.draw_field("h", 0)
             test.run_agents(1)
             test.display.refresh()
@@ -47,7 +48,7 @@ def main():
 
 
 class Scenario:
-    BOTS = 50
+    BOTS = 10000
     def __init__(self, num_screens, scale = 10):
         
         self.fields = {"h": magfield} # To map function names to forcefield functions.

@@ -1,4 +1,4 @@
-from math import pi, atan2
+from math import pi, atan2, sin, cos
 
 def distance_to_line(point_1, point_2, point_3):
     """https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line#Line_defined_by_two_points https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line\
@@ -37,4 +37,22 @@ def add_angles(angle1, angle2):
         while theta >= pi:
             theta -= 2 * pi
         return theta
+
+def add_angles_2(angle1, mag1, angle2, mag2):
+    return vector_to_angle(add_vectors(scale_vector(angle_to_vector(angle1), mag1),
+                                       scale_vector(angle_to_vector(angle2), mag2)))
+
+def add_vectors(vector1, vector2):
+    x1, y1 = vector1
+    x2, y2 = vector2
+    return (x1 + x2, y1 + y2)
+
+def angle_to_vector(angle):
+    return (cos(angle), sin(angle))
+
+def vector_to_angle(vector):
+    return atan2(vector[1], vector[0])
+
+def scale_vector(vector, scale):
+    return tuple(scale * n for n in vector)
 #PI = pi
